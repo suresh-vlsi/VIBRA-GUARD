@@ -1,7 +1,5 @@
 # VIBRA-GUARD
 
-
-# VIBRA-GUARD
 ### Agentic Vibration Monitoring, Fault Diagnosis & Active Rejection
 
 <p align="center">
