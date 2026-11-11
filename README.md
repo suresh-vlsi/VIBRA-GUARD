@@ -1,4 +1,27 @@
 # VIBRA-GUARD
+
+
+# VIBRA-GUARD
+### Agentic Vibration Monitoring, Fault Diagnosis & Active Rejection
+
+<p align="center">
+  <a href="https://suresh-vlsi.github.io/VIBRA-GUARD/">
+    <img src="https://img.shields.io/badge/Project-Portfolio-36D7C2?style=for-the-badge" />
+  </a>
+  <a href="https://vibra-guard.streamlit.app/">
+    <img src="https://img.shields.io/badge/Live-Interactive_Demo-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+  </a>
+  <a href="https://github.com/suresh-vlsi/VIBRA-GUARD">
+    <img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" />
+  </a>
+</p>
+
+**Explore the project:**
+- 🌐 [Official Project Portfolio](https://suresh-vlsi.github.io/VIBRA-GUARD/)
+- 🚀 [Launch Interactive Dashboard](https://vibra-guard.streamlit.app/)
+- 💻 [View Source Code](https://github.com/suresh-vlsi/VIBRA-GUARD)
+
+
 ## Agentic Vibration Monitoring, Fault Diagnosis and Active Rejection
 
 VIBRA-GUARD is a **software-only, simulation-based demonstrator** for closed-loop rotating-machine vibration monitoring. It combines a physics-based machine simulator, synthetic 3-axis IMU signals, signal processing, anomaly detection, hybrid fault diagnosis, agentic mitigation and measurement-based verification.
@@ -145,6 +168,17 @@ Python, NumPy, SciPy, scikit-learn, Matplotlib, Pandas and Streamlit.
 
 See the project presentation and the technical references listed there. Add dataset citations if real public vibration datasets are incorporated in future versions.
 
-## License
 
-No license is currently specified. Add a license only after deciding how you want others to use, modify and redistribute this project.
+## 🌐 Online Resources
+
+| Resource | Link |
+|---|---|
+| Project Portfolio | https://suresh-vlsi.github.io/VIBRA-GUARD/ |
+| Live Dashboard | https://vibra-guard.streamlit.app/ |
+| Source Code | https://github.com/suresh-vlsi/VIBRA-GUARD |
+
+## Project Status
+
+VIBRA-GUARD is currently a software-based simulation and research prototype.
+The live dashboard operates on simulated IMU data. Physical sensor integration
+and hardware-based validation are planned future extensions.
