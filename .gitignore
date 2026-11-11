@@ -1,4 +1,4 @@
-# Python
+﻿# Python
 __pycache__/
 *.py[cod]
 *.pyo
@@ -28,3 +28,10 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Backup files
+*_backup.py
+*.bak
+
+# Simulation event logs
+/results/*.jsonl
