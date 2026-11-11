@@ -55,6 +55,8 @@ class Agent:
     # ---- utilities -------------------------------------------------------
     def calibrate(self):
         self.fn_est = self.rej.identify(self.m)
+        # Allow probe-induced structural vibration to settle before monitoring.
+        self.m.step(FS)
         self._ev("CALIBRATE", f"identified structural fn = {self.fn_est:.1f} Hz")
 
     def _ev(self, kind, msg):
