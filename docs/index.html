@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VIBRA-GUARD — agentic vibration monitoring, fault diagnosis and active rejection in a software simulation.">
+  <meta name="theme-color" content="#08111f">
+  <title>VIBRA-GUARD | Agentic Vibration Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="VIBRA-GUARD home"><span class="brand-mark">V</span><span>VIBRA<span class="brand-dash">—</span>GUARD</span></a>
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="nav">
+      <a href="#system">System</a><a href="#architecture">Architecture</a><a href="#results">Results</a><a href="#limitations">Scope</a>
+      <a class="nav-cta" href="https://vibra-guard.streamlit.app/" target="_blank" rel="noreferrer">Open live demo <span>↗</span></a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> AGENTIC EDGE INTELLIGENCE · CONDITION MONITORING</div>
+        <h1>Hear the machine.<br><span>Understand the fault.</span><br>Act on the vibration.</h1>
+        <p class="hero-lede">VIBRA-GUARD is a software-based agentic system for vibration monitoring, fault diagnosis and autonomous mitigation using simulated IMU data and active vibration rejection.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://vibra-guard.streamlit.app/" target="_blank" rel="noreferrer">Launch interactive demo <span>↗</span></a>
+          <a class="button button-secondary" href="https://github.com/suresh-vlsi/VIBRA-GUARD" target="_blank" rel="noreferrer">Explore source code <span>↗</span></a>
+        </div>
+        <div class="hero-meta"><span>SIMULATION-FIRST RESEARCH PROTOTYPE</span><span class="meta-dot"></span><span>PYTHON · DSP · ML · CONTROL</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Conceptual vibration signal visualization">
+        <div class="visual-top"><span>VIBRATION / TIME DOMAIN</span><span class="live-label"><i></i> SIMULATED</span></div>
+        <div class="visual-readout"><div><small>RMS ACCELERATION</small><strong>0.056<span> g</span></strong></div><div class="readout-state"><small>AGENT STATE</small><b>RECOVERED</b></div></div>
+        <svg class="wave-svg" viewBox="0 0 620 220" role="img" aria-label="Illustrative vibration waveform">
+          <defs><linearGradient id="wave" x1="0" x2="1"><stop stop-color="#34d6c3" stop-opacity=".2"/><stop offset=".55" stop-color="#34d6c3"/><stop offset="1" stop-color="#8b9dff"/></linearGradient></defs>
+          <g class="grid-lines"><path d="M0 35H620M0 80H620M0 125H620M0 170H620"/><path d="M60 0V210M160 0V210M260 0V210M360 0V210M460 0V210M560 0V210"/></g>
+          <path class="wave-shadow" d="M0 112 C12 70 20 150 34 112 S57 84 70 112 S92 143 105 112 S127 65 140 112 S162 154 175 112 S197 86 210 112 S232 137 245 112 S267 75 280 112 S302 146 315 112 S337 91 350 112 S372 130 385 112 S407 96 420 112 S442 127 455 112 S477 101 490 112 S512 123 525 112 S547 104 560 112 S582 120 595 112 S608 109 620 112"/>
+          <path class="wave-line" d="M0 112 C12 70 20 150 34 112 S57 84 70 112 S92 143 105 112 S127 65 140 112 S162 154 175 112 S197 86 210 112 S232 137 245 112 S267 75 280 112 S302 146 315 112 S337 91 350 112 S372 130 385 112 S407 96 420 112 S442 127 455 112 S477 101 490 112 S512 123 525 112 S547 104 560 112 S582 120 595 112 S608 109 620 112"/>
+          <path class="threshold" d="M0 49H620M0 175H620"/>
+        </svg>
+        <div class="visual-bottom"><span>0.0 s</span><span>TIME →</span><span>1.0 s</span></div>
+        <div class="visual-foot"><span class="foot-dot"></span> Illustrative UI graphic · not a live sensor feed</div>
+      </div>
+      <div class="hero-scroll">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
+
+    <section class="ticker"><div class="ticker-track"><span>MONITOR</span>✳<span>DETECT</span>✳<span>DIAGNOSE</span>✳<span>IDENTIFY</span>✳<span>MITIGATE</span>✳<span>VERIFY</span>✳<span>MONITOR</span>✳<span>DETECT</span>✳<span>DIAGNOSE</span>✳<span>IDENTIFY</span>✳<span>MITIGATE</span>✳<span>VERIFY</span>✳</div></section>
+
+    <section class="section wrap" id="system">
+      <div class="section-heading"><div class="eyebrow">01 / THE SYSTEM</div><h2>From raw vibration<br>to a verified response.</h2></div>
+      <div class="system-grid">
+        <article class="feature-card"><div class="feature-icon">⌁</div><div class="card-index">01</div><h3>Sense & process</h3><p>Generate simulated three-axis IMU signals, preprocess measurements and extract time-, frequency- and envelope-domain features.</p><div class="tag-row"><span>IMU simulation</span><span>FFT</span><span>RMS</span></div></article>
+        <article class="feature-card"><div class="feature-icon">◉</div><div class="card-index">02</div><h3>Detect & diagnose</h3><p>Compare measurements against a healthy baseline, flag anomalies and combine machine-learning predictions with physics-informed rules.</p><div class="tag-row"><span>Mahalanobis</span><span>EWMA</span><span>Random Forest</span></div></article>
+        <article class="feature-card"><div class="feature-icon">⟳</div><div class="card-index">03</div><h3>Act & verify</h3><p>Choose a mitigation strategy, apply simulated active rejection or operating-speed changes, then evaluate the measured response.</p><div class="tag-row"><span>FxLMS</span><span>System ID</span><span>Verification</span></div></article>
+      </div>
+    </section>
+
+    <section class="architecture-section" id="architecture">
+      <div class="wrap">
+        <div class="section-heading"><div class="eyebrow">02 / AGENT ARCHITECTURE</div><h2>A closed-loop agent,<br><span>not just an alarm.</span></h2><p class="section-intro">The agent moves through explicit states, gathers evidence, selects an action and checks whether the machine response improved.</p></div>
+        <div class="flow">
+          <div class="flow-row"><div class="flow-node"><small>01</small><b>MONITOR</b><span>Track baseline</span></div><div class="flow-arrow">→</div><div class="flow-node"><small>02</small><b>ANOMALY</b><span>Flag deviation</span></div><div class="flow-arrow">→</div><div class="flow-node"><small>03</small><b>PROBE</b><span>Gather evidence</span></div><div class="flow-arrow">→</div><div class="flow-node"><small>04</small><b>DIAGNOSE</b><span>Identify fault</span></div></div>
+          <div class="flow-connector"><span>decision and action loop</span></div>
+          <div class="flow-row flow-row-bottom"><div class="flow-node"><small>05</small><b>PLAN</b><span>Select response</span></div><div class="flow-arrow">→</div><div class="flow-node action-node"><small>06</small><b>ACT</b><span>Mitigate vibration</span></div><div class="flow-arrow">→</div><div class="flow-node"><small>07</small><b>VERIFY</b><span>Measure outcome</span></div><div class="flow-arrow">→</div><div class="flow-node outcome-node"><small>08</small><b>RECOVER / SAFE STOP</b><span>Close or protect</span></div></div>
+        </div>
+        <div class="architecture-note"><span>SAFETY PRINCIPLE</span><p>Mitigation is not assumed to work. The agent checks measured outcomes and can stop when a configured RMS trip condition is exceeded.</p></div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="results">
+      <div class="section-heading"><div class="eyebrow">03 / EXPERIMENTAL RESULTS</div><h2>Measured in simulation.<br><span>Reported with context.</span></h2><p class="section-intro">Randomized evaluation of the V5 agent across seven simulated classes, including healthy operation. These figures describe this experiment—not field performance.</p></div>
+      <div class="metrics-grid">
+        <div class="metric-card"><strong>85.8<span>%</span></strong><label>FAULT DETECTION</label><p>103 detected faults out of 120 randomized fault trials.</p></div>
+        <div class="metric-card"><strong>85.8<span>%</span></strong><label>CORRECT DIAGNOSIS</label><p>103 correctly diagnosed fault trials out of 120.</p></div>
+        <div class="metric-card"><strong>65.0<span>%</span></strong><label>MITIGATION VERIFIED</label><p>78 of 120 fault trials passed mitigation verification.</p></div>
+        <div class="metric-card"><strong>0<span>%</span></strong><label>HEALTHY FALSE ALARMS</label><p>0 false alarms in 20 randomized healthy trials.</p></div>
+      </div>
+      <div class="results-foot"><div><b>140</b><span>TOTAL TRIALS</span></div><div><b>20</b><span>TRIALS PER CLASS</span></div><div><b>30.8%</b><span>FAULT-TRIAL RECOVERY RATE</span></div><div><b>27.5%</b><span>FAULT-TRIAL SAFETY-STOP RATE</span></div></div>
+      <p class="fine-print">Validation snapshot: 20 trials per class (healthy + six fault classes), randomized operating speed and severity. Recovery and safety-stop rates use the 120 fault trials as denominator. Results are specific to the simulator, agent version and test configuration; they are not independent hardware validation.</p>
+    </section>
+
+    <section class="section scope-section" id="limitations">
+      <div class="wrap scope-grid">
+        <div><div class="eyebrow">04 / SCOPE & NEXT STEPS</div><h2>Simulation today.<br><span>Hardware validation next.</span></h2><p class="section-intro">VIBRA-GUARD currently runs as a software simulation. Its simulated IMU signals, actuator path and machine response provide a controlled environment for developing and evaluating the agentic workflow.</p></div>
+        <div class="scope-panel"><div class="scope-status"><span class="status-indicator"></span> CURRENT IMPLEMENTATION</div><ul><li>Physics-based motor and fault simulation</li><li>Simulated three-axis IMU measurements</li><li>Signal processing and ML-based diagnosis</li><li>Software active-control and verification loop</li><li>Interactive Streamlit dashboard</li></ul><div class="next-step"><small>FUTURE WORK</small><b>Physical IMU + actuator integration, calibration, real-time constraints and controlled lab validation.</b></div></div>
+      </div>
+    </section>
+
+    <section class="cta-section wrap">
+      <div class="cta-box"><div class="eyebrow">EXPLORE THE PROJECT</div><h2>See the agent<br>make a decision.</h2><p>Run a simulated fault, inspect the signal and follow the agent's diagnosis, mitigation and verification sequence.</p><div class="hero-actions"><a class="button button-primary" href="https://vibra-guard.streamlit.app/" target="_blank" rel="noreferrer">Open live dashboard ↗</a><a class="button button-secondary" href="https://github.com/suresh-vlsi/VIBRA-GUARD" target="_blank" rel="noreferrer">View GitHub repository ↗</a></div></div>
+    </section>
+  </main>
+
+  <footer class="footer wrap"><a class="brand" href="#home"><span class="brand-mark">V</span><span>VIBRA<span class="brand-dash">—</span>GUARD</span></a><p>Agentic vibration monitoring · diagnosis · active rejection</p><div class="footer-links"><a href="https://github.com/suresh-vlsi/VIBRA-GUARD" target="_blank" rel="noreferrer">GitHub</a><a href="https://vibra-guard.streamlit.app/" target="_blank" rel="noreferrer">Live demo</a></div><small>© 2026 VIBRA-GUARD · Software simulation research prototype</small></footer>
+  <script src="script.js"></script>
+</body>
+</html>
