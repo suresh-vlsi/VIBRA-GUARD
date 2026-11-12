@@ -2,7 +2,7 @@
 import numpy as np
 from scipy import signal
 from scipy.optimize import least_squares
-from .simulator import _accel_tf
+from vibeagent.simulator import _accel_tf
 
 
 def model_eval(p, f):
@@ -11,7 +11,7 @@ def model_eval(p, f):
     _, h = signal.freqz(b, a, worN=np.atleast_1d(2 * np.pi * f / FS))
     return (K * h * np.exp(-2j * np.pi * f * tau / FS))[0]
 
-from .config import *
+from vibeagent.config import *
 
 
 class ActiveRejector:
