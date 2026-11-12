@@ -85,39 +85,18 @@ except Exception as error:
 # 3. SIMULATION FUNCTION
 # ============================================================
 
-def execute_scenario(
-    fault,
-    rpm,
-    windows,
-    injection_window,
-    seed
-):
-    """
-    Run the existing engine without modifying its source files.
-
-    RPM is propagated through main.run_scenario's global
-    operating setpoint and restored after execution.
-    """
-
-    original_rpm = engine.RPM_NOM
-
-    try:
-        engine.RPM_NOM = float(rpm)
-
-        result = engine.run_scenario(
-            name=fault,
-            baseline=baseline,
-            diagnoser=diagnoser,
-            seed=seed,
-            n_win=windows,
-            inject_at=injection_window,
-            verbose=False
-        )
-
-    finally:
-        engine.RPM_NOM = original_rpm
-
-    return result
+def execute_scenario(fault, rpm, windows, injection_window, seed):
+    """Run one closed-loop scenario through main.run_scenario."""
+    return engine.run_scenario(
+        name=fault,
+        baseline=baseline,
+        diagnoser=diagnoser,
+        seed=seed,
+        n_win=windows,
+        inject_at=injection_window,
+        verbose=False,
+        rpm=float(rpm),
+    )
 
 
 # ============================================================
@@ -180,12 +159,12 @@ st.sidebar.divider()
 run_single = st.sidebar.button(
     "▶ RUN SELECTED FAULT",
     type="primary",
-    use_container_width=True
+    width="stretch"
 )
 
 run_all = st.sidebar.button(
     "⚡ RUN ALL SIX FAULTS",
-    use_container_width=True
+    width="stretch"
 )
 
 
@@ -277,26 +256,26 @@ def display_result(result):
         f"{agent.m.rpm:.0f}"
     )
 
-    col2.metric(
-        "RMS Before",
-        f"{result['before']:.4f} g"
-    )
+    before, after, db = result["before"], result["after"], result["db"]
+    scored = bool(np.isfinite(before) and np.isfinite(after) and before > 0)
 
-    col3.metric(
-        "RMS After",
-        f"{result['after']:.4f} g",
-        delta=f"{result['after'] - result['before']:.4f} g",
-        delta_color="inverse"
-    )
+    col2.metric("RMS Before", f"{before:.4f} g" if np.isfinite(before) else "N/A")
 
-    col4.metric(
-        "RMS Reduction",
-        f"{100 * (1 - result['after'] / max(result['before'], 1e-9)):.1f}%"
-    )
+    if scored:
+        col3.metric(
+            "RMS After",
+            f"{after:.4f} g",
+            delta=f"{after - before:.4f} g",
+            delta_color="inverse"
+        )
+        col4.metric("RMS Reduction", f"{100 * (1 - after / before):.1f}%")
+    else:
+        col3.metric("RMS After", "N/A")
+        col4.metric("RMS Reduction", "N/A")
 
     st.metric(
         "Vibration Reduction",
-        f"{result['db']:.2f} dB"
+        f"{db:.2f} dB" if np.isfinite(db) else "NOT SCORED (no verified mitigation)"
     )
 
     # --------------------------------------------------------
@@ -481,7 +460,7 @@ def display_result(result):
 
         st.dataframe(
             event_df[["win", "t", "type", "msg"]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True
         )
 
@@ -576,7 +555,7 @@ elif "batch_results" in st.session_state:
 
     st.dataframe(
         summary,
-        use_container_width=True,
+        width="stretch",
         hide_index=True
     )
 

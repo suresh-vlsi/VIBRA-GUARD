@@ -114,8 +114,21 @@ def run_trial(label, trial_id, seed, baseline, diagnoser,
             truth=label if window_index >= inject_at else "healthy"
         )
 
-    anomaly_event = first_event(agent, "ANOMALY")
-    diagnosis_event = first_event(agent, "DIAGNOSE")
+    # A fault trial can only be "detected"/"diagnosed" by events AFTER injection;
+    # a pre-injection false alarm must not be credited as a detection.
+    if label == "healthy":
+        scored_events = agent.events
+    else:
+        scored_events = [e for e in agent.events if e["win"] > inject_at]
+    anomaly_event = next((e for e in scored_events if e["type"] == "ANOMALY"), None)
+    diagnosis_event = next((e for e in scored_events if e["type"] == "DIAGNOSE"), None)
+    trip_after_injection = next(
+        (e for e in scored_events if e["type"] == "TRIP"), None
+    )
+    pre_injection_alarm = (
+        label != "healthy"
+        and any(e["type"] == "ANOMALY" and e["win"] <= inject_at for e in agent.events)
+    )
     verify_events = [
         event for event in agent.events if event.get("type") == "VERIFY"
     ]
@@ -168,9 +181,10 @@ def run_trial(label, trial_id, seed, baseline, diagnoser,
             outcome = "NOT_VERIFIED"
 
     detection_latency = None
-    if anomaly_event:
+    first_detection = anomaly_event or trip_after_injection
+    if first_detection:
         detection_latency = max(
-            0, int(anomaly_event.get("win", 0)) - inject_at - 1
+            0, int(first_detection.get("win", 0)) - inject_at - 1
         )
 
     trip_rms_g = None
@@ -210,7 +224,10 @@ def run_trial(label, trial_id, seed, baseline, diagnoser,
         "rpm_start": round(rpm, 2),
         "severity": round(severity, 3),
         "structural_mode_hz": round(mode_hz, 2),
-        "detected": anomaly_event is not None,
+        # A hard-limit TRIP is also a detection (the fault was caught, just by the
+        # safety layer before the anomaly detector had a chance to report).
+        "detected": anomaly_event is not None or trip_after_injection is not None,
+        "detected_by_trip_only": anomaly_event is None and trip_after_injection is not None,
         "detection_latency_windows": detection_latency,
         "diagnosed": diagnosed,
         "diagnosis_confidence": diagnosis_confidence,
@@ -224,7 +241,7 @@ def run_trial(label, trial_id, seed, baseline, diagnoser,
         "trip_stage": trip_stage,
         "trip_state": trip_state,
         "stop_reason": stop_reason,
-        "false_alarm": false_alarm,
+        "false_alarm": false_alarm or pre_injection_alarm,
         "outcome": outcome,
         "final_state": agent.state,
         "actions": actions,
@@ -252,7 +269,11 @@ def summarize(rows):
         verified = np.mean([row["mitigation_verified"] for row in faulty])
         recovery = np.mean([row["recovered"] for row in faulty])
         stops = np.mean([row["safe_stop"] for row in faulty])
-        print(f"Fault detection rate:         {100 * detection:.1f}%")
+        pre_alarms = sum(row["false_alarm"] for row in faulty)
+        print(f"Pre-injection false alarms in fault trials: {pre_alarms} (not counted as detections)")
+        trip_only = sum(row["detected_by_trip_only"] for row in faulty)
+        print(f"Fault detection rate:         {100 * detection:.1f}%  "
+              f"({trip_only} caught by the hard-limit trip before the anomaly detector)")
         print(f"Correct diagnosis rate:       {100 * diagnosis:.1f}%")
         print(f"Mitigation verification rate: {100 * verified:.1f}%")
         print(f"Recovery rate:                {100 * recovery:.1f}%")
@@ -293,11 +314,9 @@ def summarize(rows):
 
         print("\nSafety-stop breakdown:")
         stopped = [row for row in faulty if row["safe_stop"]]
-        pre_detection = sum(
-            row["detected"] is False for row in stopped
-        )
+        pre_detection = sum(row["detected_by_trip_only"] for row in stopped)
         after_detection = len(stopped) - pre_detection
-        print(f"Stops before anomaly detection: {pre_detection}")
+        print(f"Stops by hard-limit trip before anomaly detection: {pre_detection}")
         print(f"Stops after anomaly detection:  {after_detection}")
         print("\nSafety-stop reasons:")
         reason_counts = {}

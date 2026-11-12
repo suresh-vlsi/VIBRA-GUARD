@@ -1,110 +1,94 @@
 # VIBRA-GUARD
-### Intelligent Vibration Detection, Diagnosis and Active Rejection
+### Agentic Vibration Monitoring, Fault Diagnosis & Active Rejection
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/suresh-vlsi/VIBRA-GUARD)
-[![Portfolio](https://img.shields.io/badge/Project-Portfolio-blue)](https://suresh-vlsi.github.io/VIBRA-GUARD/)
-[![Live Dashboard](https://img.shields.io/badge/Live-Streamlit%20Dashboard-red?logo=streamlit)](https://vibra-guard.streamlit.app/)
+<p align="center">
+  <a href="https://suresh-vlsi.github.io/VIBRA-GUARD/">
+    <img src="https://img.shields.io/badge/Project-Portfolio-36D7C2?style=for-the-badge" />
+  </a>
+  <a href="https://vibra-guard.streamlit.app/">
+    <img src="https://img.shields.io/badge/Live-Interactive_Demo-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+  </a>
+  <a href="https://github.com/suresh-vlsi/VIBRA-GUARD">
+    <img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" />
+  </a>
+</p>
 
-**VIBRA-GUARD** is a software-based intelligent vibration monitoring and active rejection system. It combines physics-based vibration simulation, signal processing, anomaly detection, machine learning, fault diagnosis, and adaptive control in a unified workflow.
+**Explore the project**
 
-The project explores how vibration faults can be detected, classified, and mitigated through an intelligent control architecture using simulated IMU measurements.
-
-> **Project status:** VIBRA-GUARD is a simulation-based research prototype. Its current dashboard and validation workflows operate on simulated IMU data. Physical sensor integration and hardware-based validation have not yet been performed.
+- 🌐 [Official Project Portfolio](https://suresh-vlsi.github.io/VIBRA-GUARD/)
+- 🚀 [Launch Interactive Dashboard](https://vibra-guard.streamlit.app/)
+- 💻 [View Source Code](https://github.com/suresh-vlsi/VIBRA-GUARD)
 
 ---
 
 ## 1. Project Overview
 
-Mechanical systems can experience unwanted vibration due to imbalance, shaft misalignment, resonance, looseness, and bearing defects. These disturbances can affect system stability, reliability, and operating life.
+VIBRA-GUARD is a **software-based, simulation-driven demonstrator** for intelligent vibration monitoring, fault diagnosis and active vibration rejection in rotating machinery.
 
-VIBRA-GUARD implements an intelligent workflow to:
+The system integrates a physics-based machine simulator, synthetic three-axis IMU signals, digital signal processing, machine learning, an agentic decision-making architecture and closed-loop control.
 
-1. Simulate vibration signals under healthy and faulty operating conditions.
-2. Process vibration signals and extract relevant features.
-3. Detect abnormal vibration behaviour.
-4. Identify the probable fault category.
-5. Apply adaptive vibration rejection.
-6. Evaluate the resulting vibration reduction and recovery status.
-7. Visualise system behaviour through an interactive dashboard.
+Its objective is to demonstrate how an intelligent monitoring agent can detect abnormal machine behaviour, investigate potential faults, select mitigation strategies and independently verify their outcomes.
 
-The system combines model-based simulation with data-driven intelligence and feedback-oriented control.
+> **Validation scope:** All reported results are simulation-based. They do not establish performance on physical machinery or real IMU hardware.
 
 ## 2. System Architecture
 
 ```text
-        Physics-Based Vibration Simulator
+       Physics-Based Machine Simulator
                      |
-                     v
-              Simulated IMU Data
+              Synthetic 3-Axis IMU
                      |
-                     v
-              Signal Processing
+           Signal Preprocessing
                      |
-                     v
-             Feature Extraction
+          DSP and Feature Extraction
                      |
-          +----------+----------+
-          |                     |
-          v                     v
-   Anomaly Detection      Fault Diagnosis
-          |                     |
-          +----------+----------+
+              Anomaly Detection
                      |
-                     v
-             Intelligent Agent
+            Probe and Diagnosis
+                (ML + Rules)
                      |
-                     v
-          Adaptive Active Control
+             Agent Decision Plan
                      |
-                     v
-          Closed-Loop Verification
+             Control Intervention
+          /          |          \
+    Harmonic      Speed       Derating /
+    Rejection    Adjustment   Safe Stop
+          \          |          /
                      |
-                     v
-           Results and Dashboard
+           Independent Verification
+                     |
+             Recovery / Escalation
+                     |
+              Continuous Monitoring
 ```
 
-### Main processing stages
+The agent follows a state-driven workflow:
 
-| Stage | Function |
+**MONITOR → ANOMALY → PROBE → DIAGNOSE → PLAN → ACT → VERIFY → RECOVER / SAFE STOP**
+
+## 3. Main Capabilities
+
+| Subsystem | Functionality |
 |---|---|
-| Simulation | Generates vibration signals for different operating conditions |
-| Signal processing | Analyses vibration characteristics in the frequency and time domains |
-| Feature extraction | Extracts information useful for anomaly detection and diagnosis |
-| Anomaly detection | Identifies deviations from healthy operating behaviour |
-| Fault diagnosis | Classifies the simulated fault condition |
-| Intelligent agent | Coordinates detection, diagnosis, and control decisions |
-| Active control | Applies harmonic feed-forward FxLMS rejection/adaptation |
-| Verification | Evaluates vibration reduction and recovery status |
-| Dashboard | Presents system outputs and experiment results |
+| Machine simulation | Rotating-machine dynamics, structural response and configurable fault injection |
+| Signal processing | Preprocessing, principal-axis fusion, FFT/order analysis, RMS, kurtosis, crest factor and envelope features |
+| Anomaly detection | Healthy-baseline modelling and online abnormality detection |
+| Fault diagnosis | Random Forest classification combined with physics-informed diagnostic rules |
+| Active mitigation | Harmonic feed-forward FxLMS rejection and operating-speed interventions |
+| Agent architecture | State-based monitoring, probing, diagnosis, planning, action and verification |
+| Dashboard | Interactive Streamlit interface for scenario execution, experiments, visualisation and exports |
 
-## 3. Supported Operating Conditions
+## 4. Fault Scenarios
 
-The simulator considers seven operating classes:
+The simulator supports seven operating classes:
 
-| Operating condition | Description |
-|---|---|
-| Healthy | Normal operating condition |
-| Imbalance | Uneven mass distribution causing periodic vibration |
-| Misalignment | Shaft or coupling alignment error |
-| Resonance | Excitation near a system natural frequency |
-| Looseness | Mechanical looseness producing abnormal vibration |
-| Bearing outer-race fault | Simulated outer-race bearing defect |
-| Bearing inner-race fault | Simulated inner-race bearing defect |
-
-## 4. Key Features
-
-- Physics-based vibration simulation.
-- Simulated IMU signal generation.
-- Time-domain and frequency-domain signal analysis.
-- Statistical and spectral feature extraction.
-- Machine-learning-based fault classification.
-- Anomaly detection using a learned healthy baseline.
-- Intelligent fault diagnosis and decision-making.
-- Harmonic feed-forward FxLMS vibration rejection/adaptation.
-- Closed-loop mitigation and recovery evaluation.
-- Randomized fault-validation experiments.
-- Interactive Streamlit dashboard.
-- Visualisation of vibration scenarios and spectrum imbalance.
+1. Healthy operation
+2. Imbalance
+3. Misalignment
+4. Resonance
+5. Looseness
+6. Bearing outer-race defect
+7. Bearing inner-race defect
 
 ## 5. Repository Structure
 
@@ -115,8 +99,6 @@ VIBRA-GUARD/
 ├── dashboard.py
 ├── requirements.txt
 ├── README.md
-├── LICENSE_DECISION.txt
-├── .gitignore
 │
 ├── vibeagent/
 │   ├── __init__.py
@@ -129,50 +111,27 @@ VIBRA-GUARD/
 │   └── simulator.py
 │
 ├── experiments/
-│   ├── __init__.py
-│   ├── anomaly_visualization.py
-│   ├── bearing_analysis.py
-│   ├── bearing_comparison.py
-│   ├── bearing_snr.py
-│   ├── engineering_calculations.py
-│   ├── fault_classifier.py
-│   ├── feature_learning.py
-│   ├── fft_experiment.py
-│   ├── generate_outcome1.py
-│   ├── generate_outcome1_rms_panel.py
-│   ├── generate_outcome2.py
-│   ├── mahalanobis_experiment.py
-│   ├── robust_fault_classifier.py
 │   ├── robust_validation.py
 │   ├── robust_validation_v5_1.py
-│   ├── simulator_experiment.py
-│   └── three_class_visualization.py
+│   ├── bearing_analysis.py
+│   ├── bearing_comparison.py
+│   ├── fault_classifier.py
+│   └── ... supporting experiments
 │
 ├── results/
-│   ├── scenarios.png
-│   ├── spectrum_imbalance.png
-│   ├── vibra_guard_outcome1.png
-│   ├── vibra_guard_outcome2.png
 │   ├── v5_randomized_validation.csv
-│   └── v5_1_corrected_validation.csv
+│   ├── v5_1_corrected_validation.csv
+│   └── ... experimental figures
 │
 └── docs/
     ├── index.html
-    ├── script.js
-    └── styles.css
+    ├── styles.css
+    └── script.js
 ```
 
-## 6. Installation and Setup
+## 6. Installation
 
-### Requirements
-
-- Python 3.10 or later recommended
-- NumPy
-- SciPy
-- Scikit-learn
-- Matplotlib
-- Pandas
-- Streamlit
+**Requirements:** Python 3.10 or later.
 
 ### Clone the repository
 
@@ -187,10 +146,10 @@ cd VIBRA-GUARD
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 ```
 
-**Ubuntu / WSL**
+**Linux / Ubuntu / WSL**
 
 ```bash
 python3 -m venv .venv
@@ -200,197 +159,167 @@ source .venv/bin/activate
 ### Install dependencies
 
 ```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## 7. Running the Project
+## 7. Running the Application
 
-### Quick simulation
+### Command-line execution
+
+Quick experiment:
 
 ```bash
 python main.py --quick
 ```
 
-Runs the quick simulation and validation workflow.
-
-### Full simulation
+Full experiment:
 
 ```bash
 python main.py
 ```
 
-Runs the standard project workflow.
-
-### Launch the dashboard
+### Interactive dashboard
 
 ```bash
 streamlit run dashboard.py
 ```
 
-The dashboard provides a visual interface for exploring the simulated vibration-monitoring workflow.
+Open the local URL provided by Streamlit, usually:
 
-## 8. V4.0.0 Quick Validation Results
+`http://localhost:8501`
 
-The following results were obtained from the V4 quick simulation run.
+## 8. Experimental Validation
 
-### Detection and diagnosis
+The repository contains multiple generations of simulation experiments. Their results must be interpreted separately because they use different evaluation runs and configurations.
+
+### V4.0.0 — Main application quick validation
+
+The V4 quick validation reported:
 
 | Metric | Result |
 |---|---:|
-| Healthy baseline RMS | 0.0597 g |
-| Anomaly threshold | 8.8037 |
-| Random Forest classification accuracy | 97.9% |
-| Anomaly detection F1-score | 0.987 |
+| Random Forest accuracy | 97.9% |
+| Anomaly detection F1 | 0.987 |
 | Healthy false-alarm rate | 0.0% |
-| Fault recall | 97.5% |
-| Fused diagnosis on six fault classes | 100% |
+| Fault detection recall | 97.5% |
+| Fused diagnosis accuracy | 100.0% |
 
-**Evaluation details:**
+The fused diagnosis result covers the six fault classes only (120 samples). It is not an overall seven-class healthy-plus-fault accuracy.
 
-- Random Forest accuracy was evaluated on 140 unseen simulated samples, with 20 samples per class across seven classes.
-- The 100% fused-diagnosis result was obtained across six fault classes using 120 samples. The corresponding confusion matrix did not include healthy test samples; therefore, this result should not be interpreted as overall seven-class accuracy.
+**Closed-loop results**
 
-### Closed-loop vibration mitigation
-
-The quick run produced the following simulated vibration reductions:
-
-| Fault condition | Vibration reduction | Outcome |
+| Fault | Vibration reduction | Outcome |
 |---|---:|---|
 | Imbalance | 13.88 dB | Recovered |
 | Misalignment | 12.27 dB | Mitigated, not recovered |
 | Resonance | 21.89 dB | Recovered |
 | Looseness | 4.76 dB | Mitigated, not recovered |
-| Bearing outer-race | 4.37 dB | Mitigated, not recovered |
-| Bearing inner-race | 7.54 dB | Mitigated, not recovered |
+| Bearing outer | 4.37 dB | Mitigated, not recovered |
+| Bearing inner | 7.54 dB | Mitigated, not recovered |
 
-**Summary:**
+Two scenarios achieved verified recovery. Four achieved mitigation without verified recovery. No safety shutdown occurred in this quick run.
 
-- 6 out of 6 fault conditions were diagnosed in this demonstration.
-- All 6 conditions showed a measured reduction in vibration.
-- 2 conditions achieved recovered status.
-- 4 conditions achieved mitigation without verified recovery.
-- No safety shutdown occurred during this quick run.
+These results are from a specific simulation run, not hardware validation.
 
-Vibration reduction values represent the measured change reported by the simulation's closed-loop verification procedure. Mitigation does not necessarily imply verified healthy recovery.
+### V5 — Randomized simulation validation
 
-## 9. Randomized Validation Experiments
-
-Separate randomized validation datasets are maintained for V5 and V5.1. These experiments should be interpreted independently of the V4 quick-run results.
-
-Both datasets contain 140 simulated trials:
-
-- 120 fault-condition trials.
-- 20 healthy-condition trials.
-
-### V5 randomized validation
+The original V5 randomized experiment evaluated 140 trials: 20 trials per operating class, comprising 120 fault trials and 20 healthy trials.
 
 | Metric | Result |
 |---|---:|
-| Fault detection | 103/120 (85.8%) |
-| Correct diagnosis | 103/120 (85.8%) |
-| Verified mitigation | 78/120 (65.0%) |
-| Recovery | 37/120 (30.8%) |
-| Safety stops | 33/120 (27.5%) |
-| Healthy false alarms | 0/20 (0.0%) |
+| Fault detection | 85.8% |
+| Correct fault diagnosis | 85.8% |
+| Verified mitigation | 65.0% |
+| Recovery | 30.8% |
+| Safety stops | 27.5% |
+| Healthy false alarms | 0% |
 
-Dataset: `results/v5_randomized_validation.csv`
+### V5.1 — Corrected randomized validation
 
-### V5.1 corrected validation
+The corrected V5.1 evaluation also contains 140 trials.
 
 | Metric | Result |
 |---|---:|
-| Fault detection | 103/120 (85.8%) |
-| Correct diagnosis | 101/120 (84.2%) |
-| Verified mitigation | 77/120 (64.2%) |
-| Recovery | 36/120 (30.0%) |
-| Safety stops | 34/120 (28.3%) |
-| Healthy false alarms | 0/20 (0.0%) |
+| Fault detection | 85.8% |
+| Correct fault diagnosis | 84.2% |
+| Verified mitigation | 64.2% |
+| Recovery | 30.0% |
+| Safety stops | 28.3% |
+| Healthy false alarms | 0% |
 
-Dataset: `results/v5_1_corrected_validation.csv`
+The V5.1 dataset includes additional diagnostic confidence, severity, incident RMS and safety-trip information.
 
-The V5.1 dataset additionally records diagnostic confidence, severity, incident RMS, trip RMS, trip stage, trip state, and stop reason.
+**Important distinction:** V5 and V5.1 are separate experimental evaluations. V5.1 is not a new physical hardware release, and its corrected evaluation does not automatically imply a change to the main V4 agent implementation.
 
-**Important:** V5 and V5.1 are separate experimental datasets. Their metrics are not combined, and the V5.1 corrected evaluation should not be interpreted as a change to the V4 implementation.
+### Reproducing randomized experiments
 
-# V5 randomized validation
+```bash
 python -m experiments.robust_validation --trials 5 --quiet
 
-# V5.1 corrected validation
 python -m experiments.robust_validation_v5_1 --trials 5 --quiet
+```
 
-# Larger V5.1 experiment
+For a larger V5.1 experiment:
+
+```bash
 python -m experiments.robust_validation_v5_1 --trials 20 --quiet
+```
 
-## 10. Results and Visualisations
+The scripts generate validation CSV files under `results/`. Always report trial counts, configuration and simulation limitations alongside performance percentages.
 
-### Simulated vibration scenarios
+## 9. Technology Stack
 
-![Vibration scenarios](results/scenarios.png)
+- **Programming:** Python
+- **Numerical computing:** NumPy, SciPy
+- **Machine learning:** scikit-learn
+- **Signal visualisation:** Matplotlib
+- **Data handling:** Pandas
+- **Interactive interface:** Streamlit
+- **Control:** Harmonic feed-forward FxLMS adaptation
 
-### Imbalance frequency spectrum
+## 10. Limitations and Future Work
 
-![Spectrum imbalance](results/spectrum_imbalance.png)
+VIBRA-GUARD is currently a software-only simulation and research prototype.
 
-### Additional outcome visualisations
+Current limitations:
 
-| Result | File |
-|---|---|
-| Outcome 1 | `results/vibra_guard_outcome1.png` |
-| Outcome 2 | `results/vibra_guard_outcome2.png` |
+- No physical IMU, motor rig or actuator has been tested.
+- Synthetic signals and simulator assumptions may not represent all real-world machine behaviour.
+- The single-mode and secondary-path assumptions limit generalisation to complex multi-mode structures.
+- Bearing-impact components are broadband and impulsive; harmonic FxLMS rejection is not expected to cancel all such energy.
+- Safety thresholds and mitigation policies are simulation parameters, not certified machine-protection settings.
 
-## 11. Technology Stack
+Potential future extensions:
 
-| Technology | Application |
-|---|---|
-| Python | Core implementation |
-| NumPy | Numerical computation |
-| SciPy | Signal processing and scientific computation |
-| Scikit-learn | Machine learning and classification |
-| Matplotlib | Signal and result visualisation |
-| Pandas | Experimental data handling |
-| Streamlit | Interactive dashboard |
-| Git and GitHub | Version control and project hosting |
+1. Physical IMU integration and sensor calibration.
+2. Hardware-in-the-loop experimentation.
+3. Real-time embedded control implementation.
+4. Validation using representative rotating-machine datasets.
+5. Multi-mode structural modelling and secondary-path identification.
+6. Independent safety engineering and controlled laboratory testing.
 
-## 12. Current Limitations
+## 11. Project Status
 
-VIBRA-GUARD is currently a software simulation and research prototype.
+**Current release:** V4.0.0
 
-- The live dashboard currently operates on simulated IMU data.
-- Physical IMU sensor integration has not yet been implemented.
-- Hardware-based active vibration rejection has not been demonstrated.
-- The reported performance metrics are based on simulated experiments.
-- Real-world performance under changing mechanical loads, sensor noise, and physical actuator constraints remains to be validated.
+VIBRA-GUARD demonstrates an integrated simulation-based workflow for vibration monitoring, fault diagnosis, active rejection and independent mitigation verification.
 
-Physical sensor integration and hardware-based validation remain future extensions.
+The V5 and V5.1 experiments provide additional randomized evaluation of the monitoring and mitigation approach.
 
-## 13. Future Work
-
-Potential extensions include:
-
-1. Integration with physical IMU sensors.
-2. Real-time vibration acquisition and monitoring.
-3. Hardware-in-the-loop testing.
-4. Embedded implementation of signal-processing and control algorithms.
-5. Experimental validation of adaptive vibration rejection.
-6. Evaluation under real mechanical operating conditions.
-7. Improved robustness against sensor noise and changing operating conditions.
-
-## 14. References and Acknowledgements
-
-The project draws on concepts from vibration analysis, digital signal processing, anomaly detection, machine learning, and adaptive control.
-
-Refer to the project presentation and its technical references for the supporting background and methodology. Relevant algorithm and dataset references should be added here as the implementation incorporates specific external methods or public datasets.
-
-## 15. Project Links
-
-| Resource | Link |
-|---|---|
-| GitHub repository | https://github.com/suresh-vlsi/VIBRA-GUARD |
-| Project portfolio | https://suresh-vlsi.github.io/VIBRA-GUARD/ |
-| Live Streamlit dashboard | https://vibra-guard.streamlit.app/ |
+Physical sensor integration and hardware-based validation remain future development objectives.
 
 ---
 
-**VIBRA-GUARD — Intelligent Vibration Detection, Diagnosis and Active Rejection**
+## Online Resources
 
-*An integrated simulation-based exploration of intelligent condition monitoring and adaptive vibration control.*
+| Resource | Link |
+|---|---|
+| Project Portfolio | [GitHub Pages](https://suresh-vlsi.github.io/VIBRA-GUARD/) |
+| Live Dashboard | [Streamlit](https://vibra-guard.streamlit.app/) |
+| Source Code | [GitHub Repository](https://github.com/suresh-vlsi/VIBRA-GUARD) |
+| Release | [VIBRA-GUARD V4.0.0](https://github.com/suresh-vlsi/VIBRA-GUARD/releases/tag/v4.0.0) |
+
+---
+
+*Developed as a simulation-based engineering project exploring intelligent condition monitoring, machine learning, digital signal processing and active vibration control.*

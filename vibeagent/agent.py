@@ -26,6 +26,10 @@ SUCCESS_REDUCTION = 0.35        # >= ~3.7 dB RMS drop counts as success
 class Agent:
     def __init__(self, machine, baseline, diagnoser, rejector, log_path=None, verbose=True):
         self.m, self.base, self.diag, self.rej = machine, baseline, diagnoser, rejector
+        # Process setpoint = the speed the machine is started at (not a hard-coded 1200 rpm).
+        self.setpoint = float(machine.rpm)
+        self.rms_before = None            # pre-action RMS reference (set when an incident opens)
+        self.wait = 0                     # windows left in VERIFY
         self.verbose, self.log_path = verbose, log_path
         self.mem = {}                       # learned (fault, action) -> expected reduction
         self.state = "MONITOR"
@@ -47,10 +51,14 @@ class Agent:
         self.recovery_elapsed = 0
         self.recovery_quiet_required = 6
         self.recovery_timeout = 20
-        self.recovery_rms_limit = max(1.5 * self.base.rms0, self.base.rms0 + 0.02)
         self.last_outcome = "NOT_RUN"
         if log_path:
             open(log_path, "w").close()
+
+    @property
+    def recovery_rms_limit(self):
+        """Absolute RMS bound for 'recovered', tied to the *current* healthy baseline."""
+        return max(1.5 * self.base.rms0, self.base.rms0 + 0.02)
 
     # ---- utilities -------------------------------------------------------
     def calibrate(self):
@@ -133,6 +141,8 @@ class Agent:
                 self.bad = 0
                 if self.cur is not None:
                     self.failed.add(self.cur)
+                if self.cur == "ACTIVE_REJECT":
+                    self.rej.disable()      # do not leave a failed controller driving the actuator
                 self._next_action(F["rms"])
             elif self.quiet >= self.recovery_quiet_required:
                 self._ev(
@@ -429,7 +439,7 @@ class Agent:
                                 + (0.01 * H_mag(3 * fr, self.fn_est)) ** 2) * sc)
         pred = np.array(pred)
         ok = np.where(pred <= max(1.5 * pred.min(), 0.05))[0]
-        return float(grid[ok[np.argmin(np.abs(grid[ok] - RPM_NOM))]])
+        return float(grid[ok[np.argmin(np.abs(grid[ok] - self.setpoint))]])
 
     def _verify(self, F, d):
         """
@@ -481,13 +491,20 @@ class Agent:
             )
             if self.cur == "ACTIVE_REJECT":
                 self.rej.disable()
+                # The controller is now off, so the machine is back at its original
+                # vibration level: judge the next action against the incident RMS,
+                # not against the (controller-assisted) post-action RMS.
+                ref_rms = self.rms_before
+            else:
+                # Speed changes are not reverted, so the post-action RMS is the true reference.
+                ref_rms = post_rms
             if self.cur is not None:
                 self.failed.add(self.cur)
-            self._next_action(post_rms)
+            self._next_action(ref_rms)
 
     def _safe_stop(self, why):
         self._ev("ACTION", f"SAFE_STOP: {why}")
-        self._ev("ALERT", f"maintenance REQUIRED: suspected {self.fault}; machine stopped")
+        self._ev("ALERT", f"maintenance REQUIRED: suspected {self.fault or 'unclassified fault'}; machine stopped")
         self.m.stopped = True; self.rej.disable()
         self.state, self.cur = "STOPPED", "SAFE_STOP"
         self.last_outcome = "STOPPED"

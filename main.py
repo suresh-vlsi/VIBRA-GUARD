@@ -151,11 +151,17 @@ def _event_actions(agent):
 
 
 def run_scenario(name, baseline, diagnoser, seed,
-                 n_win=60, inject_at=10, verbose=True):
-    """Run one closed-loop fault scenario and score only verified active operation."""
-    os.makedirs(OUT, exist_ok=True)
+                 n_win=60, inject_at=10, verbose=True, rpm=None):
+    """Run one closed-loop fault scenario and score only verified active operation.
 
-    machine = Machine(rpm=RPM_NOM, fn=FN_HEALTHY, seed=seed)
+    ``rpm`` is the starting shaft speed (default: RPM_NOM).  For the resonance
+    scenario the structural mode is moved to 2x the shaft frequency at that speed,
+    so the scenario is genuinely resonant at any ``rpm``.
+    """
+    os.makedirs(OUT, exist_ok=True)
+    rpm = float(RPM_NOM if rpm is None else rpm)
+
+    machine = Machine(rpm=rpm, fn=FN_HEALTHY, seed=seed)
     rejector = ActiveRejector()
     agent = Agent(
         machine,
@@ -174,7 +180,7 @@ def run_scenario(name, baseline, diagnoser, seed,
     for window_index in range(n_win):
         if window_index == inject_at:
             if name == "resonance":
-                machine.set_fn(40.0)
+                machine.set_fn(2.0 * rpm / 60.0)
             else:
                 machine.inject(name, 0.8)
             if verbose:
@@ -183,6 +189,8 @@ def run_scenario(name, baseline, diagnoser, seed,
         agent.tick(truth=name if window_index >= inject_at else "healthy")
 
     rows = agent.rows
+    first_fault_win = inject_at + 1          # first window containing the fault
+    post_events = [e for e in agent.events if e["win"] >= first_fault_win]
     rms = np.asarray([row["rms"] for row in rows], dtype=float)
     rpm = np.asarray([row["rpm"] for row in rows], dtype=float)
 
@@ -267,7 +275,7 @@ def run_scenario(name, baseline, diagnoser, seed,
             outcome = "NOT_VERIFIED"
 
     diagnosed = "-"
-    diagnosis_event = _event_first(agent, "DIAGNOSE")
+    diagnosis_event = next((e for e in post_events if e["type"] == "DIAGNOSE"), None)
     if diagnosis_event:
         diagnosed = diagnosis_event.get("msg", "-").split(" (")[0]
 
@@ -278,8 +286,8 @@ def run_scenario(name, baseline, diagnoser, seed,
         "rms": rms,
         "rpm": rpm,
         "det": next(
-            (event["win"] - (inject_at + 1)
-             for event in agent.events if event.get("type") == "ANOMALY"),
+            (event["win"] - first_fault_win
+             for event in post_events if event.get("type") == "ANOMALY"),
             None,
         ),
         "before": before,

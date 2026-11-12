@@ -59,4 +59,6 @@ LOG_KEYS = {"rms", "a05", "a1", "a15", "a2", "a3", "a4", "a5"}
 
 
 def vec(F, keys):
-    return np.array([np.log(F[k] + 1e-4) if (keys is ANOM_KEYS and k in LOG_KEYS) else F[k] for k in keys])
+    """Feature vector for ``keys``; anomaly features are log-scaled (compared by value, not identity)."""
+    use_log = list(keys) == ANOM_KEYS
+    return np.array([np.log(F[k] + 1e-4) if (use_log and k in LOG_KEYS) else F[k] for k in keys])
