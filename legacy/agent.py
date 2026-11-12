@@ -2,9 +2,9 @@
 import json
 from collections import deque
 import numpy as np
-from .config import *
-from .simulator import H_mag
-from .dsp import preprocess, features
+from vibeagent.config import *
+from vibeagent.simulator import H_mag
+from vibeagent.dsp import preprocess, features
 
 COST = {"ACTIVE_REJECT": 0.0, "SHIFT_SPEED": 0.05, "DERATE": 0.25, "SAFE_STOP": 1.0}
 # prior expected RMS reduction of each action per fault (refined online from outcomes)
